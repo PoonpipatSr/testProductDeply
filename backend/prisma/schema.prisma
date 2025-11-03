@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Study_plan {
+  id        Int     @id @default(autoincrement())
+  plan_code String? @unique
+  name_eng  String
+  name_th   String
+
+  student_plans Student_plan[]
+}
+
+model Student_plan {
+  student_id Decimal
+  plan_id    Int
+  created_at DateTime
+  updated_at DateTime
+
+  study_plan Study_plan @relation(fields: [plan_id], references: [id])
+
+  @@id([student_id, plan_id])
+}
