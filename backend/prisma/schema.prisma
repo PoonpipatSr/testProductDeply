@@ -5,8 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  // output   = "../generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -14,22 +14,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Study_plan {
+model study_plan {
   id        Int     @id @default(autoincrement())
   plan_code String? @unique
   name_eng  String
   name_th   String
 
-  student_plans Student_plan[]
+  student_plans student_plan[]
 }
 
-model Student_plan {
+model student_plan {
   student_id Decimal
   plan_id    Int
   created_at DateTime
   updated_at DateTime
 
-  study_plan Study_plan @relation(fields: [plan_id], references: [id])
+  study_plan study_plan @relation(fields: [plan_id], references: [id])
 
   @@id([student_id, plan_id])
 }
